@@ -53,7 +53,6 @@ public class BizService {
 	public List<Biz> findAll(){
 		JdbcTemplate jdbcTemplate=new JdbcTemplate(dataSource);
 		List<Biz> bizList=jdbcTemplate.query("select id,name,brand,doe from biz_service_tbl", new BeanPropertyRowMapper(Biz.class));
-		//??
 		return bizList;
 		
 	}
