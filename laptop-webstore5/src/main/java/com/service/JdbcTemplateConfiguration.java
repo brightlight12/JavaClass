@@ -10,12 +10,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 @Configuration
 @ImportResource("classpath:biz-service.xml")
+
 public class JdbcTemplateConfiguration {
-	
 	@Bean("newjdbctemplate")
 	public JdbcTemplate createTemplate(@Autowired DataSource datasource) {
 		JdbcTemplate jdbctemplate = new JdbcTemplate(datasource);
 		return jdbctemplate;
 	}
-
 }

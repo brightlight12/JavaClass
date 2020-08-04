@@ -31,7 +31,7 @@ public class BizService {
 	
 	public void save(Biz biz){
 		String sql="insert into biz_service_tbl(name,brand,doe) values(?,?,?)";
-		Object[] data={biz.getName(),biz.getBrand(),biz.getDoe()};
+		Object[] data = {biz.getName(),biz.getBrand(),biz.getDoe()};
 		jdbcTemplate.update(sql,data);
 	}
 	

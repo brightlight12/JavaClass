@@ -13,12 +13,11 @@ public class BizServiceMain {
 	public static void main(String[] args) {
 
 		ApplicationContext context = new ClassPathXmlApplicationContext("biz-service.xml");
-		//why case here??
 		BizService bizservice = (BizService)context.getBean("biza");
 		Biz biz = new Biz();
 		biz.setId(0);
-		biz.setName("Ford");
-		biz.setBrand("Mustang");
+		biz.setName("Lexus");
+		biz.setBrand("ES");
 		Timestamp timestamp = new Timestamp(new Date().getTime()); 
 		biz.setDoe(timestamp);
 		

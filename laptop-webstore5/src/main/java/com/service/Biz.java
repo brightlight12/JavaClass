@@ -8,8 +8,7 @@ public class Biz {
 	private String brand;
 	private Timestamp doe;
 	
-	public Biz(){
-		
+	public Biz(){	
 	}
 
 	public Biz(int id, String name, String brand, Timestamp doe) {
