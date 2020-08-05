@@ -12,18 +12,13 @@
 <body>
 
 <div class="container">
-  <h2>Button Styles</h2>
-  <button type="button" class="btn">Basic</button>
-  <button type="button" class="btn btn-primary">Primary</button>
-  <button type="button" class="btn btn-secondary">Secondary</button>
-  <button type="button" class="btn btn-success">Success</button>
-  <button type="button" class="btn btn-info">Info</button>
-  <button type="button" class="btn btn-warning">Warning</button>
-  <button type="button" class="btn btn-danger">Danger</button>
-  <button type="button" class="btn btn-dark">Dark</button>
-  <button type="button" class="btn btn-light">Light</button>
-  <button type="button" class="btn btn-link">Link</button>      
+  <h2>La Hernus Saathi Bhai Ho, Bootstrap ko Kamal!!!!Responsive Embed</h2>
+  <p>Create a responsive video and scale it nicely to the parent element with an 16:9 aspect ratio</p>
+  <div class="embed-responsive embed-responsive-16by9">
+    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/04cL3gTS_94"></iframe>
+  </div>
 </div>
+
 
 </body>
 </html>
