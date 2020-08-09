@@ -39,7 +39,8 @@
         <th>Username</th>
         <th>Password</th>
         <th>D.O.E</th>
-        <th>Action</th>
+        <th>Delete Record</th>
+        <th>Edit Record</th>
       </tr>
     </thead>
     <tbody>
@@ -48,13 +49,18 @@
     for(Login loginn:loginlist){
     %>
       <tr>
-        <td><%=loginn.getId() %></td>
+        <td style="background-color: dodgerblue;"><%=loginn.getId() %></td>
         <td><%=loginn.getUsername() %></td>
         <td><%=loginn.getPassword() %></td>
         <td><%=loginn.getDoe() %>
         <td>
         <a href="deletelogin?username=<%=loginn.getUsername() %>">
         <img src="img/delete_icon.jpg" style="height: 20px;">
+        </a>
+        </td>
+        <td>
+        <a href="editlogin?did=<%=loginn.getId() %>">
+        <img src="img/edit.png" style="height: 30px;">
         </a>
         </td>
       </tr>

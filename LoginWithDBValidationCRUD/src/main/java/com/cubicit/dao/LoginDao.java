@@ -16,6 +16,16 @@ public class LoginDao{
 	@Autowired // ByType, @Qualifier ,@ByName
 	private JdbcTemplate jdbcTemplate;
 	
+	public Login findById(int did){
+		String sql = "select id,username,password,doe from user_info_tbl where id = " + did;
+		List<Login> loginList = jdbcTemplate.query(sql, new BeanPropertyRowMapper(Login.class));
+		/*if(bizList.size()==1){
+			return bizList.get(0);
+		}
+		return null;*/
+		return loginList.size()==1 ? loginList.get(0):null;
+	}
+	
 	//true, false
 	public boolean isAuth(String username,String password){
 		List<Login> loginList=jdbcTemplate.query("select id,username,password,doe from user_info_tbl where username =? and password=?",
@@ -34,6 +44,12 @@ public class LoginDao{
 		int rows=jdbcTemplate.update("delete from user_info_tbl where username = ?",username);
 		String result="Number of row deleted is  = "+rows;
 		return result;
+	}
+	
+	public void updateById(Login login){
+		String sql="update user_info_tbl set username=?,password=? where id=?";
+		Object[] data={login.getUsername(),login.getPassword(),login.getId()};
+		jdbcTemplate.update(sql,data);
 	}
 	
 	public void save(Login login){

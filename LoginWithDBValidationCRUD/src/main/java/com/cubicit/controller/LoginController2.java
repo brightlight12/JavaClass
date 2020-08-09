@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cubicit.dao.LoginDao;
 
@@ -39,7 +41,7 @@ public class LoginController2 {
 				
 				loginDao.save(login);
 				//Adding message in request scope so that we can access this message on jsp file
-				req.setAttribute("message", "Username" + username + "has been added successfully!");
+				req.setAttribute("message", "Username " + username + " has been added successfully!");
 				return "input"; // ->> /input.jsp
 				}
 			}
@@ -49,6 +51,35 @@ public class LoginController2 {
 			return "input"; // ->> /input.jsp
 		}
 		
+		@PostMapping({"/editlogin"})
+		public String updateUsername(HttpServletRequest req, Model model){ //this annotation is reading did as integer from request parameter
+			String username = req.getParameter("uname");
+			String password = req.getParameter("pwd");
+			int did = Integer.parseInt(req.getParameter("did"));
+			Login login = new Login();
+			login.setUsername(username);
+			login.setPassword(password);
+			login.setId(did);
+			//Here we have to update the data inside database
+			loginDao.updateById(login);
+			
+			
+			model.addAttribute("message", "User login: " + username + " is updated");
+			
+			//Fetch all new records and add inside model to show on JSP
+			List<Login> logins = loginDao.findAll();
+			model.addAttribute("logindata", logins);
+			return "logins"; // ->> /logins.jsp
+		}
+		
+		
+		@GetMapping({"/editlogin"})
+		public String showEditPage(@RequestParam int did, Model model){ //this annotation is reading did as integer from request parameter
+			Login logins = loginDao.findById(did);
+			//model means request scope
+			model.addAttribute("logindata", logins);
+			return "editlogins"; // ->> /editlogins.jsp
+		}
 		
 		@GetMapping("/deletelogin")
 		public String deleteUserLogin(HttpServletRequest req){
