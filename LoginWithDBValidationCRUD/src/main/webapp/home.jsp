@@ -16,10 +16,20 @@
 <header style="height:30px; background-color:tomato;"></header>
 
 <div class="container">
+<div style="text-align: center;">
   <h2>Welcome Home!</h2>
   
-  <img alt="welcome picture" src="img/welcome.jpeg" style="height:100%;">
-  
+  <img alt="welcome picture" src="img/welcome.jpg" style="width:80%;">
+  </div>
+</div>
+
+<div style="max-width: 800px; margin: auto; text-align:center; padding-top: 10px;">
+    <a href="myinput" style="padding:20px;">
+    <button type="button" class="btn btn-danger">Add New User Login</button>
+    </a>
+     <a href="showlogin" style="padding:20px;">
+    <button type="button" class="btn btn-warning">Show All User Logins</button>
+    </a>
 </div>
 
 </body>

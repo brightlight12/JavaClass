@@ -19,7 +19,10 @@
 	
 
 	<!-- This is the package name in which controller resides -->
-	<context:component-scan base-package="com.cubicit" />
+	<context:component-scan base-package="com.cubicit.controller" />
+	
+	<!-- This is the package is used to create a bin for DAO layer -->
+	<context:component-scan base-package="com.cubicit.dao" />
 
 	<!-- Hey I am going to JSP in my project as presentation layer -->
 	<bean id="viewResolver"

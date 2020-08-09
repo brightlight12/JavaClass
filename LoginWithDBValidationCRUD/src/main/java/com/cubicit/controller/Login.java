@@ -1,4 +1,4 @@
-package com.cubicit;
+package com.cubicit.controller;
 
 import java.sql.Timestamp;
 

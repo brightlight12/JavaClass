@@ -1,4 +1,4 @@
-package com.cubicit;
+package com.cubicit.dao;
 
 import javax.sql.DataSource;
 
