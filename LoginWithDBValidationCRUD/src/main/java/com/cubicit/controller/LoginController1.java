@@ -18,13 +18,13 @@ public class LoginController1 {
 	//  <form action="authUser" method="POST">
 	@PostMapping({"/authUser"})
 	public String execute(HttpServletRequest req){
-		String username=req.getParameter("uname");
-		String password=req.getParameter("pwd");
+		String username=req.getParameter("username");
+		String password=req.getParameter("password");
 		if(loginDao.isAuth(username, password)){
 			return "home"; // ->> /home.jsp	
 		}else{
 			//Adding message in request scope so that we can access this message on jsp file
-			req.setAttribute("message", "The username and password is incorrect.");
+			req.setAttribute("message", "The username or password is incorrect.");
 			return "auth"; // ->> /auth.jsp
 		}
 	}

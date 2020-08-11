@@ -10,6 +10,12 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 		<servlet-name>mydispatching</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<load-on-startup>1</load-on-startup> <!-- Eager loaded -->
+		<multipart-config>
+			<location>/Users/alizasingh/Documents/JAVA/Temp_Image</location>
+			<max-file-size>5242880</max-file-size><!--5MB -->
+			<max-request-size>20971520</max-request-size><!--20MB -->
+			<file-size-threshold>0</file-size-threshold>
+	</multipart-config>
 	</servlet>
 
 	<servlet-mapping>

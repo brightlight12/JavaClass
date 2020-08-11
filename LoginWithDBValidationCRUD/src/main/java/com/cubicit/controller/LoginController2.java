@@ -1,16 +1,19 @@
 package com.cubicit.controller;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -25,26 +28,15 @@ public class LoginController2 {
 	
 	//<form action="myinput" method="POST">
 		@PostMapping({"/myinput"})
-		public String execute(HttpServletRequest req){
-			String username=req.getParameter("uname");
-			String password=req.getParameter("pwd");
-			
-			if(username.isEmpty() || password.isEmpty()) {
-				req.setAttribute("dangermessage", "Username or Password cannot be null");
-				return "input";
-			} else {
-				Login login = new Login();
-				login.setPassword(password);
-				login.setUsername(username);
+		public String execute(@ModelAttribute Login login, Model model){
 				Timestamp timestamp=new Timestamp(new Date().getTime());
 				login.setDoe(timestamp);
 				
 				loginDao.save(login);
 				//Adding message in request scope so that we can access this message on jsp file
-				req.setAttribute("message", "Username " + username + " has been added successfully!");
+				model.addAttribute("message", "Username has been added successfully!");
 				return "input"; // ->> /input.jsp
 				}
-			}
 		
 		@GetMapping({"/myinput"})
 		public String showPage(){
@@ -53,8 +45,8 @@ public class LoginController2 {
 		
 		@PostMapping({"/editlogin"})
 		public String updateUsername(HttpServletRequest req, Model model){ //this annotation is reading did as integer from request parameter
-			String username = req.getParameter("uname");
-			String password = req.getParameter("pwd");
+			String username = req.getParameter("username");
+			String password = req.getParameter("password");
 			int did = Integer.parseInt(req.getParameter("did"));
 			Login login = new Login();
 			login.setUsername(username);
@@ -81,6 +73,19 @@ public class LoginController2 {
 			return "editlogins"; // ->> /editlogins.jsp
 		}
 		
+		@GetMapping("/deletebyid")
+		public String deleteById(HttpServletRequest req){
+			String dbid = req.getParameter("id");
+			//deleting the data from the database
+			loginDao.deleteById(Integer.parseInt(dbid));
+			
+			//This is showing remaining data from the database
+			req.setAttribute("message", "ID: " + dbid + " is deleted");
+			List<Login> loginlist = loginDao.findAll();
+			req.setAttribute("logindata", loginlist);
+			return "logins"; // ->> /logins.jsp
+		}
+		
 		@GetMapping("/deletelogin")
 		public String deleteUserLogin(HttpServletRequest req){
 			String username = req.getParameter("username");
@@ -99,5 +104,18 @@ public class LoginController2 {
 			List<Login> loginli = loginDao.findAll();
 			req.setAttribute("logindata", loginli);
 			return "logins"; // ->> /logins.jsp
+		}
+		
+		//<img src="loadphoto?dbid=44"/>
+		@GetMapping({"/loadphoto"})
+		public void renderPhoto(@RequestParam int dbid,HttpServletResponse resp) throws IOException{
+			byte[] photo = loginDao.findPhotoById(dbid);
+			resp.setContentType("image/jpeg");
+			ServletOutputStream outputStream = resp.getOutputStream(); //reference of the body of the response
+			if(photo!=null){
+				outputStream.write(photo);
+				outputStream.flush();
+				outputStream.close();	
+			}
 		}
 }

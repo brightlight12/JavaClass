@@ -6,6 +6,7 @@
   <title>Login Data Page</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -39,8 +40,7 @@
         <th>Username</th>
         <th>Password</th>
         <th>D.O.E</th>
-        <th>Delete Record</th>
-        <th>Edit Record</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
@@ -54,11 +54,9 @@
         <td><%=loginn.getPassword() %></td>
         <td><%=loginn.getDoe() %>
         <td>
-        <a href="deletelogin?username=<%=loginn.getUsername() %>">
+        <a href="deletebyid?id=<%=loginn.getId() %>">
         <img src="img/delete_icon.jpg" style="height: 20px;">
         </a>
-        </td>
-        <td>
         <a href="editlogin?did=<%=loginn.getId() %>">
         <img src="img/edit.png" style="height: 30px;">
         </a>
@@ -73,10 +71,10 @@
 </div>
 <div style="max-width: 800px; margin: auto; text-align:center;">
     <a href="oauth" style="padding:20px;">
-    <button type="button" class="btn btn-primary">Go to login page</button>
+    <button type="button" class="btn btn-secondary">Go to login page</button>
     </a>
      <a href="myinput" style="padding:20px;">
-    <button type="button" class="btn btn-danger">Add New User Login</button>
+    <button type="button" class="btn btn-primary">Add New User Login</button>
     </a>
     </div>
 </body>

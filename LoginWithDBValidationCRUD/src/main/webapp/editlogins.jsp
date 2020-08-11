@@ -33,15 +33,16 @@ background-color: lightgrey;
     <div class="form-group">
     <i class="fa fa-user-circle-o" style="font-size:15px; color:red; text-align:center;"></i>
       <label for="uname">Username:</label>
-      <input type="text" class="form-control" id="uname" placeholder="Enter Username" name="uname" value="${logindata.username}">
+      <input type="text" class="form-control" id="uname" placeholder="Enter Username" name="username" value="${logindata.username}">
     </div>
     <div class="form-group">
     <i class="fa fa-key" style="font-size:15px; color:red"></i>
       <label for="pwd">Password:</label>
-      <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd" value="${logindata.password}">
+      <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password" value="${logindata.password}">
     </div>
     <div style="text-align: center;">
-    <button type="submit" class="btn btn-primary">Update Login</button>
+    <button type="submit" class="btn btn-warning">Update Login</button>
+    <button type="reset" class="btn btn-danger">Cancel</button>
     </div>
   </form>
   </div>
@@ -51,10 +52,10 @@ background-color: lightgrey;
 
 <div style="max-width: 800px; margin: auto; text-align:center;">
     <a href="myinput" style="padding:20px;">
-    <button type="button" class="btn btn-danger">Add New User Login</button>
+    <button type="button" class="btn btn-primary">Add New User Login</button>
     </a>
      <a href="showlogin" style="padding:20px;">
-    <button type="button" class="btn btn-warning">Show All User Logins</button>
+    <button type="button" class="btn btn-info">Show All User Logins</button>
     </a>
 </div>
 </body>
