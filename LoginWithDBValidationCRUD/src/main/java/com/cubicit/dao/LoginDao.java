@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.support.SqlLobValue;
 import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.jdbc.support.lob.LobHandler;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cubicit.controller.Login;
 
@@ -50,6 +51,12 @@ public class LoginDao{
 		return result;
 	}
 	
+	public String deletecPhoto(int id){
+		int rows = jdbcTemplate.update("delete from user_photos_tbl where photoid = ?",id);
+		String result="Number of row deleted is  = " + rows;
+		return result;
+	}
+	
 	public String deleteById(int id){
 		int rows=jdbcTemplate.update("delete from user_info_tbl where id = ?",id);
 		String result="Number of row deleted is  = "+rows;
@@ -67,23 +74,54 @@ public class LoginDao{
 		return photo;
 	}
 	
+	public byte[] cfindPhotoById(int dbid){
+		byte[] photo=jdbcTemplate.queryForObject("select photo from user_photos_tbl where photoid = " + dbid, byte[].class);
+		return photo;
+	}
+	
 	public void save(Login login){
 		try {
-			byte[] photo=login.getFile().getBytes();
-			LobHandler lobHandler=new DefaultLobHandler();
-			SqlLobValue sqlLobValue=new SqlLobValue(photo,lobHandler);
-			String sql="insert into user_info_tbl(username, password, doe, photo) values(?,?,?,?)";
-			Object[] data = {login.getUsername(), login.getPassword(), login.getDoe(), sqlLobValue};
-			int dataType[] ={Types.VARCHAR,Types.VARCHAR,Types.TIMESTAMP,Types.BLOB};
-			jdbcTemplate.update(sql,data,dataType);
-		} catch (IOException e) {
+			MultipartFile[] multipartFiles = login.getFile();
+			int pid=0;
+			if(multipartFiles.length>0){
+				byte[] photo = multipartFiles[0].getBytes();
+				LobHandler lobHandler = new DefaultLobHandler();
+				SqlLobValue sqlLobValue = new SqlLobValue(photo,lobHandler);
+				String sql = "insert into user_info_tbl(username, password, doe, photo) values(?,?,?,?)";
+				Object[] data={login.getUsername(), login.getPassword(), login.getDoe(), sqlLobValue};
+				//This is just syntax !!!!!!!!!!!!!!!!!!!
+				int dataType[] ={Types.VARCHAR,Types.VARCHAR,Types.TIMESTAMP,Types.BLOB};
+				jdbcTemplate.update(sql, data, dataType);	
+				String maxid = "select max(id) from user_info_tbl";
+				pid = jdbcTemplate.queryForObject(maxid, Integer.class);
+			}
+			int i = 0;
+			for(MultipartFile multipartFile:multipartFiles){
+				if(i > 0){
+					byte[] photo = multipartFile.getBytes();
+					LobHandler lobHandler = new DefaultLobHandler();
+					SqlLobValue sqlLobValue = new SqlLobValue(photo,lobHandler);
+					String imagesql="insert into user_photos_tbl(photo, pid) values(?,?)";
+					Object[] data = {sqlLobValue, pid};
+					//This is just syntax !!!!!!!!!!!!!!!!!!!
+					int dataType[] = {Types.BLOB,Types.INTEGER};
+					jdbcTemplate.update(imagesql, data, dataType);	
+				}
+				 i++;	
+		}
+		}   catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public List<Login> findAll(){
-		List<Login> loginList = jdbcTemplate.query("select id,username,password,doe from login_db.user_info_tbl", new BeanPropertyRowMapper(Login.class));
-		return loginList; 
+		List<Login> loginList = jdbcTemplate.query("select id, username, password, doe from user_info_tbl", new BeanPropertyRowMapper(Login.class));
+		for(Login login : loginList){
+			String sql = "select photoid from user_photos_tbl where pid = " + login.getId();
+			List<Integer> cimageIds = jdbcTemplate.queryForList(sql,Integer.class);
+			login.setCimageid(cimageIds);
+		}
+		return loginList;
 	}
 
 }

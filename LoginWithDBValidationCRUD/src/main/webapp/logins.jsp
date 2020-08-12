@@ -40,28 +40,48 @@
         <th>Username</th>
         <th>Password</th>
         <th>D.O.E</th>
+        <th>Photo</th>
         <th>Action</th>
       </tr>
     </thead>
     <tbody>
     <%
     List<Login> loginlist = (List<Login>)request.getAttribute("logindata");
-    for(Login loginn:loginlist){
+    for(Login loginn : loginlist){
+    	List<Integer> cimageIds = loginn.getCimageid();
     %>
       <tr>
         <td style="background-color: dodgerblue;"><%=loginn.getId() %></td>
         <td><%=loginn.getUsername() %></td>
         <td><%=loginn.getPassword() %></td>
-        <td><%=loginn.getDoe() %>
+        <td><%=loginn.getDoe() %></td>
+        
         <td>
-        <a href="deletebyid?id=<%=loginn.getId() %>">
+         <img src="loadphoto?dbid=<%=loginn.getId()%>" style="height: 50px;">
+         
+         <%
+         for(Integer cid : cimageIds){ %>
+         <img src="cloadPhoto?dbid=<%=cid%>" style="height: 50px;">
+         <a href="deleteCPhoto?cid=<%=cid%>"> 
+         <img src="img/delete.png" style="height: 30px;">
+         </a>
+         <% } %>
+         
+         </td>
+         
+         <td>
+         
+        <a href="deleteByid?id=<%=loginn.getId() %>">
         <img src="img/delete_icon.jpg" style="height: 20px;">
         </a>
+        
         <a href="editlogin?did=<%=loginn.getId() %>">
         <img src="img/edit.png" style="height: 30px;">
         </a>
         </td>
+        
       </tr>
+      
     <% } %> 
      
     </tbody>

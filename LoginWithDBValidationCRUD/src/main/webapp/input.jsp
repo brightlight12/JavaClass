@@ -44,7 +44,7 @@ background-color: lightgrey;
      <div class="form-group">
     <i class="far fa-file" style="font-size:15px; color:red"></i>
       <label for="photo">Photo:</label>
-      <input type="file" class="form-control" id="file" name="file">
+      <input type="file" class="form-control" id="file" name="file" multiple="multiple">
     </div>
     
     <div style="text-align: center;">

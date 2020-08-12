@@ -99,6 +99,16 @@ public class LoginController2 {
 			return "logins"; // ->> /logins.jsp
 		}
 		
+		@GetMapping("/deleteCPhoto")
+		public String deleteCPhoto(@RequestParam int cid,Model model){
+			//deleting the data from the database
+			loginDao.deletecPhoto(cid);
+			//This is showing remaining data from the database
+			List<Login> logins = loginDao.findAll();
+			model.addAttribute("logindata", logins);
+			return "logins"; // ->> /bizs.jsp
+		}
+		
 		@GetMapping({"/showlogin"})
 		public String showLogins(HttpServletRequest req){
 			List<Login> loginli = loginDao.findAll();
@@ -112,6 +122,18 @@ public class LoginController2 {
 			byte[] photo = loginDao.findPhotoById(dbid);
 			resp.setContentType("image/jpeg");
 			ServletOutputStream outputStream = resp.getOutputStream(); //reference of the body of the response
+			if(photo!=null){
+				outputStream.write(photo);
+				outputStream.flush();
+				outputStream.close();	
+			}
+		}
+		
+		@GetMapping({"/cloadPhoto"})
+		public void crenderPhoto(@RequestParam int dbid,HttpServletResponse resp) throws IOException{
+			byte[] photo = loginDao.cfindPhotoById(dbid);
+			resp.setContentType("image/png");
+			ServletOutputStream outputStream=resp.getOutputStream(); //reference of the body of the response
 			if(photo!=null){
 				outputStream.write(photo);
 				outputStream.flush();
